@@ -3,20 +3,20 @@
     using Microsoft.EntityFrameworkCore;
     using System.Linq.Expressions;
 
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-        private DbSet<Product> _products;
+        public ApplicationDbContext DbContext { get; }
+        private readonly DbSet<Product> _products;
 
         public ProductRepository(ApplicationDbContext dbContext)
         {
-            _dbContext = dbContext;
-            _products = _dbContext.Set<Product>();
+            DbContext = dbContext;
+            _products = DbContext.Set<Product>();
         }
 
         public async Task<Product> GetByIdAsync(Guid id) => await _products.FirstOrDefaultAsync(p => p.Id == id);
-        public virtual async Task<IEnumerable<Product>> GetAllAsync() => await _products.ToListAsync();
-        public virtual async Task<IEnumerable<Product>> GetByExprissionAsync(Expression<Func<Product, bool>> expression)
+        public virtual async Task<List<Product>> GetAllAsync() => await _products.ToListAsync();
+        public virtual async Task<List<Product>> GetByExprissionAsync(Expression<Func<Product, bool>> expression)
             => await _products.Where(expression).ToListAsync();
 
         public virtual async Task<Product> AddAsync(Product product)
@@ -25,7 +25,7 @@
         }
         public virtual async Task<Product> EditAsync(Product product)
         {
-            if (await IsExists(product))
+            if (!await IsExists(product))
                 throw new Exception("Entity dosn't exist in database");
 
             return _products.Update(product).Entity;
@@ -37,7 +37,7 @@
                 throw new Exception("Entity dosn't exist in database");
 
             _products.Remove(product);
-
+            
             return product;
         }
 

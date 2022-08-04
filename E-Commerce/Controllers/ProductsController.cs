@@ -2,49 +2,73 @@
 
 namespace ECommerce
 {
+    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
+    using System.ComponentModel.DataAnnotations;
 
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductRepository _repository;
+        private readonly IProductUnitOfWork _productUnitOfWork;
 
-        public ProductsController(ProductRepository repository)
+        protected Mapper _mapper;
+
+        public ProductsController(IProductUnitOfWork productUnitOfWork)
         {
-            _repository = repository;
+            _productUnitOfWork = productUnitOfWork;
+
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Product, ProductViewModel>().ReverseMap();
+            });
+            _mapper = new Mapper(mapperConfiguration);
         }
 
         // GET: api/<ProductsController>
         [HttpGet]
-        public async IEnumerable<Product> Get()
+        public async Task<IEnumerable<ProductViewModel>> Get()
         {
-            return _repository.
+            List<Product> entities = await _productUnitOfWork.ReadAsync();
+            return entities.Select(product => _mapper.Map<ProductViewModel>(product));
         }
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            return "value";
+            Product product = await _productUnitOfWork.ReadByIdAsync(id);
+            ProductViewModel productViewModel = _mapper.Map<ProductViewModel>(product);
+
+            FluentValidation.Results.ValidationResult validationResult = await new ProductValidator().ValidateAsync(productViewModel);
+
+            if (!validationResult.IsValid)
+                return BadRequest(new { errors = validationResult.Errors });
+
+            return Ok(productViewModel);
         }
 
         // POST api/<ProductsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ProductViewModel> Post([FromBody] Product product)
         {
+            product = await _productUnitOfWork.CreateAsync(product);
+            return _mapper.Map<ProductViewModel>(product);
         }
 
         // PUT api/<ProductsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<ProductViewModel> Put([FromBody] Product product)
         {
+            product = await _productUnitOfWork.UpdateAsync(product);
+            return _mapper.Map<ProductViewModel>(product);
         }
 
         // DELETE api/<ProductsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(Guid id)
         {
+            await _productUnitOfWork.DeleteAsync(id);
         }
     }
 }
