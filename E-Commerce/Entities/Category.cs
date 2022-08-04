@@ -8,6 +8,6 @@
         public string Description { get; set; }
         public string DescriptionSecondLanguage { get; set; }
 
-        public List<Product> Products { get; set; }
+        public List<ProductCategory> ProductCategories { get; set; }
     }
 }

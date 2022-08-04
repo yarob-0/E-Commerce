@@ -14,8 +14,6 @@
 
             builder.Property(p => p.Description).IsRequired().HasMaxLength(5000);
             builder.Property(p => p.DescriptionSecondLanguage).IsRequired().HasMaxLength(5000);
-
-            builder.HasOne(p => p.Category).WithMany(c => c.Products).HasForeignKey(p => p.CategoryId);
         }
     }
 }
