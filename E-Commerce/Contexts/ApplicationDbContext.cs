@@ -28,6 +28,7 @@
                     typeof(ApplicationDbContext).Assembly);
 
 			modelBuilder.Entity<Product>().HasData(new Product {
+					Id = Guid.NewGuid(),
 					Name = "product 1",
 					NameSecondLanguage = "منتج ١",
 					Description = " a detalied discription of Produce 1",
@@ -36,6 +37,7 @@
 					Rate = 1,
 					},
 					new Product {
+					Id = Guid.NewGuid(),
 					Name = "product 2",
 					NameSecondLanguage = "منتج ٢",
 					Description = " a detalied discription of Produce 2",
@@ -45,10 +47,12 @@
 					}
 					);
 			modelBuilder.Entity<Product>().HasData(new Category {
+					Id = Guid.NewGuid(),
 					Name = "Category 1",
 					NameSecondLanguage = "تصنيف  ١",
 					},
 					new Category {
+					Id = Guid.NewGuid(),
 					Name = "Category 2",
 					NameSecondLanguage = "تصنيف  ٢",
 					}

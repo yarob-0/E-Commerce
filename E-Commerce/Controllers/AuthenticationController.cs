@@ -28,7 +28,7 @@ namespace ECommerce
             return Created("registered user", requstedModel);
         }
 
-        [HttpGet("Token")]
+        [HttpPost("Token")]
         public async Task<IActionResult> GetTokenAsync([FromBody] TokenRequestModel model)
         {
             if (!ModelState.IsValid)
