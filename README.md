@@ -1,5 +1,5 @@
 
 ## todo
 
-- fix seeding of userAccounts
+- fix entity of userAccounts
 
