@@ -1,11 +1,11 @@
-﻿// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
+﻿
 namespace ECommerce
 {
     using AutoMapper;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.ComponentModel.DataAnnotations;
 
+	[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -27,20 +27,23 @@ namespace ECommerce
 
         // GET: api/<ProductsController>
         [HttpGet]
-        public async Task<IEnumerable<ProductViewModel>> Get()
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> Get()
         {
-            List<Product> entities = await _productUnitOfWork.ReadAsync();
-            return entities.Select(product => _mapper.Map<ProductViewModel>(product));
+			var entities = await _productUnitOfWork.ReadAsync();
+			return Ok(entities.Select(product =>
+					_mapper.Map<ProductViewModel>(product)));
         }
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            Product product = await _productUnitOfWork.ReadByIdAsync(id);
-            ProductViewModel productViewModel = _mapper.Map<ProductViewModel>(product);
+            var product = await _productUnitOfWork.ReadByIdAsync(id);
+			ProductViewModel productViewModel =
+				_mapper.Map<ProductViewModel>(product);
 
-            FluentValidation.Results.ValidationResult validationResult = await new ProductValidator().ValidateAsync(productViewModel);
+			FluentValidation.Results.ValidationResult validationResult = await
+				new ProductValidator().ValidateAsync(productViewModel);
 
             if (!validationResult.IsValid)
                 return BadRequest(new { errors = validationResult.Errors });
@@ -49,22 +52,25 @@ namespace ECommerce
         }
 
         // POST api/<ProductsController>
+		[Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ProductViewModel> Post([FromBody] Product product)
+        public async Task<ActionResult<ProductViewModel>> Post([FromBody] Product product)
         {
-            product = await _productUnitOfWork.CreateAsync(product);
-            return _mapper.Map<ProductViewModel>(product);
+            var pro = await _productUnitOfWork.CreateAsync(product);
+            return Created("Added", _mapper.Map<ProductViewModel>(pro));
         }
 
         // PUT api/<ProductsController>/5
+		[Authorize(Roles = "Admin")]
         [HttpPut]
-        public async Task<ProductViewModel> Put([FromBody] Product product)
+        public async Task<ActionResult<ProductViewModel>> Put([FromBody] Product product)
         {
-            product = await _productUnitOfWork.UpdateAsync(product);
-            return _mapper.Map<ProductViewModel>(product);
+            var pro = await _productUnitOfWork.UpdateAsync(product);
+            return Created("updated", _mapper.Map<ProductViewModel>(pro));
         }
 
         // DELETE api/<ProductsController>/5
+		[Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task Delete(Guid id)
         {
