@@ -20,7 +20,7 @@ namespace ECommerce
 
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<BaseEntity<Category>, CategoryViewModel>().ReverseMap();
+                cfg.CreateMap<BaseEntity, CategoryViewModel>().ReverseMap();
             });
             _mapper = new Mapper(mapperConfiguration);
         }
@@ -57,7 +57,7 @@ namespace ECommerce
         public async Task<ActionResult<CategoryViewModel>> Post([FromBody] Category category)
         {
             var cat = await _categoryUnitOfWork.CreateAsync(category);
-            return Created("added", _mapper.Map<CategoryViewModel>(cat));
+            return Created(category.Id.ToString(), _mapper.Map<CategoryViewModel>(cat));
         }
 
         // PUT api/<CategoriesController>/5
@@ -66,7 +66,7 @@ namespace ECommerce
         public async Task<ActionResult<CategoryViewModel>> Put([FromBody] Category category)
         {
             var cat = await _categoryUnitOfWork.UpdateAsync(category);
-            return Created("changed", _mapper.Map<CategoryViewModel>(cat));
+            return Created(category.Id.ToString(), _mapper.Map<CategoryViewModel>(cat));
         }
 
         // DELETE api/<CategoriesController>/5

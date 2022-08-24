@@ -1,5 +1,6 @@
-﻿namespace ECommerce.Entities.Configurations
+﻿namespace Product
 {
+    using Common;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

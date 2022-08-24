@@ -3,6 +3,7 @@ using System;
 using ECommerce;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Migrations
 {
     [DbContext(typeof(UserIdentityDbContext))]
-    partial class UserIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220817120145_samples")]
+    partial class samples
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,20 +52,6 @@ namespace ECommerce.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("2b768143-2f81-4f94-9083-d0f42109eef7"),
-                            Name = "Category 1",
-                            NameSecondLanguage = "تصنيف  ١"
-                        },
-                        new
-                        {
-                            Id = new Guid("42bbbd77-d0f2-453a-a6d0-b8c0b9479222"),
-                            Name = "Category 2",
-                            NameSecondLanguage = "تصنيف  ٢"
-                        });
                 });
 
             modelBuilder.Entity("ECommerce.Product", b =>
@@ -116,7 +104,7 @@ namespace ECommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("20f6e016-d0ca-4fd7-afba-86f5a79d0671"),
+                            Id = new Guid("6780fe5f-f61b-4c2c-92b6-d86fcab7b820"),
                             Description = " a detalied discription of Produce 1",
                             DescriptionSecondLanguage = "وصف مفصل لمنتج ١",
                             Name = "product 1",
@@ -126,13 +114,25 @@ namespace ECommerce.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a06e52c3-bced-4f3c-8c00-a0b1e012b7be"),
+                            Id = new Guid("06989192-5c8d-4188-8324-bcf311a93983"),
                             Description = " a detalied discription of Produce 2",
                             DescriptionSecondLanguage = "وصف مفصل لمنتج ٢",
                             Name = "product 2",
                             NameSecondLanguage = "منتج ٢",
                             Price = 25m,
                             Rate = 3f
+                        },
+                        new
+                        {
+                            Id = new Guid("ae89aa06-8423-4d9a-817b-f424afbd1050"),
+                            Name = "Category 1",
+                            NameSecondLanguage = "تصنيف  ١"
+                        },
+                        new
+                        {
+                            Id = new Guid("07a70ce3-f9cb-4d10-9d46-e852e1936244"),
+                            Name = "Category 2",
+                            NameSecondLanguage = "تصنيف  ٢"
                         });
                 });
 

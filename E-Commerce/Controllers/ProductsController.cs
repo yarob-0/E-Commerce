@@ -57,7 +57,7 @@ namespace ECommerce
         public async Task<ActionResult<ProductViewModel>> Post([FromBody] Product product)
         {
             var pro = await _productUnitOfWork.CreateAsync(product);
-            return Created("Added", _mapper.Map<ProductViewModel>(pro));
+            return Created(product.Id.ToString(), _mapper.Map<ProductViewModel>(pro));
         }
 
         // PUT api/<ProductsController>/5
@@ -66,7 +66,7 @@ namespace ECommerce
         public async Task<ActionResult<ProductViewModel>> Put([FromBody] Product product)
         {
             var pro = await _productUnitOfWork.UpdateAsync(product);
-            return Created("updated", _mapper.Map<ProductViewModel>(pro));
+            return Created(product.Id.ToString(), _mapper.Map<ProductViewModel>(pro));
         }
 
         // DELETE api/<ProductsController>/5
