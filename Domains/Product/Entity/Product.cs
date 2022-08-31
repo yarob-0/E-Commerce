@@ -1,6 +1,6 @@
 ﻿using Common;
 
-namespace Product
+namespace Domains.Product
 {
     public class Product : BaseEntity
     {

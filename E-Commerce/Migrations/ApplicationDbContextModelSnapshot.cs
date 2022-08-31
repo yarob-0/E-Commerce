@@ -3,83 +3,79 @@ using System;
 using ECommerce;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
 namespace ECommerce.Migrations
 {
-    [DbContext(typeof(UserIdentityDbContext))]
-    [Migration("20220809104607_Seed")]
-    partial class Seed
+    [DbContext(typeof(ApplicationDbContext))]
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.7")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("ECommerce.Category", b =>
+            modelBuilder.Entity("Domains.Category.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("varchar(5000)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("DescriptionSecondLanguage")
-                        .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("varchar(5000)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("varchar(400)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("NameSecondLanguage")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("varchar(400)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
                     b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c32d65fb-aad4-48dd-be41-733627528630"),
+                            Name = "Category 1",
+                            NameSecondLanguage = "تصنيف  ١"
+                        },
+                        new
+                        {
+                            Id = new Guid("03f59c0f-cf81-4984-bf71-2167f1c58713"),
+                            Name = "Category 2",
+                            NameSecondLanguage = "تصنيف  ٢"
+                        });
                 });
 
-            modelBuilder.Entity("ECommerce.Product", b =>
+            modelBuilder.Entity("Domains.Product.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("varchar(5000)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("DescriptionSecondLanguage")
-                        .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("varchar(5000)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("varchar(400)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("NameSecondLanguage")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("varchar(400)");
+                        .HasColumnType("longtext");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
@@ -90,6 +86,28 @@ namespace ECommerce.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Product");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("25e3b7a6-435b-4bc2-a067-1994d597ffc9"),
+                            Description = " a detalied discription of Produce 1",
+                            DescriptionSecondLanguage = "وصف مفصل لمنتج ١",
+                            Name = "product 1",
+                            NameSecondLanguage = "منتج ١",
+                            Price = 2345m,
+                            Rate = 1f
+                        },
+                        new
+                        {
+                            Id = new Guid("60065bae-d021-4eb4-8b7f-4d059eec5922"),
+                            Description = " a detalied discription of Produce 2",
+                            DescriptionSecondLanguage = "وصف مفصل لمنتج ٢",
+                            Name = "product 2",
+                            NameSecondLanguage = "منتج ٢",
+                            Price = 25m,
+                            Rate = 3f
+                        });
                 });
 
             modelBuilder.Entity("ECommerce.ProductCategory", b =>
@@ -98,17 +116,7 @@ namespace ECommerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductCategories", (string)null);
                 });
@@ -231,6 +239,40 @@ namespace ECommerce.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "f3ccc0ba-9be6-4a3f-bdb9-83dc0bb612c9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "52bda583-1f13-4e19-9459-ebba711a31c7",
+                            Email = "user@mail.xyz",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER@MAIL.XYZ",
+                            NormalizedUserName = "USER-NAME",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPTY4M1Bi6sdQJqcfXiu8zLbUg+UywyWMDKoEdR68/OGM55nds6WRvLKRXUoqTSkqQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "428ca179-511b-47ea-b199-f6e7f5500ccb",
+                            TwoFactorEnabled = false,
+                            UserName = "User-name"
+                        },
+                        new
+                        {
+                            Id = "0b52856f-8acf-4f11-af77-a133622e2c98",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "bd32a041-ed3b-4160-af00-c81883b0677c",
+                            Email = "admin@mail.xyz",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@MAIL.XYZ",
+                            NormalizedUserName = "ADMIN-NAME",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJDI/ynpOjc10wmsqfGRRXKM69HgYFP0zf1GKd3gL9G3UHaseDKJRvPTIfOOojmJ0w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "fce8f4b7-eeb4-4db4-ae66-6d4a918daee2",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin-name"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -257,6 +299,22 @@ namespace ECommerce.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "417cb3e1-b685-4102-baa3-7f50f98b5be5",
+                            ConcurrencyStamp = "365e0ac9-2be2-4c46-98cf-d5fa3cdfe80a",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "31354dcd-ed86-4840-8dbf-6bb79b73c627",
+                            ConcurrencyStamp = "5bebd5d8-0a18-48ed-8879-29851a2cb4ed",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -340,6 +398,18 @@ namespace ECommerce.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "0b52856f-8acf-4f11-af77-a133622e2c98",
+                            RoleId = "31354dcd-ed86-4840-8dbf-6bb79b73c627"
+                        },
+                        new
+                        {
+                            UserId = "f3ccc0ba-9be6-4a3f-bdb9-83dc0bb612c9",
+                            RoleId = "417cb3e1-b685-4102-baa3-7f50f98b5be5"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -359,25 +429,6 @@ namespace ECommerce.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("ECommerce.ProductCategory", b =>
-                {
-                    b.HasOne("ECommerce.Category", "Category")
-                        .WithMany("ProductCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ECommerce.Product", "Product")
-                        .WithMany("ProductCategories")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -429,16 +480,6 @@ namespace ECommerce.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ECommerce.Category", b =>
-                {
-                    b.Navigation("ProductCategories");
-                });
-
-            modelBuilder.Entity("ECommerce.Product", b =>
-                {
-                    b.Navigation("ProductCategories");
                 });
 #pragma warning restore 612, 618
         }

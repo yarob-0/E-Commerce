@@ -8,7 +8,6 @@ namespace ECommerce
 
         public static Passwords User { get { return new Passwords("Uwordpass1!"); } }
         public static Passwords Admin{ get { return new Passwords("Awordpass1!"); } }
-        public static Passwords Root{ get { return new Passwords("Rwordpass1!"); } }
 	}
 }
 

@@ -1,6 +1,6 @@
 ﻿using Common;
 
-namespace ECommerce
+namespace Domains.Category
 {
     public class Category : BaseEntity
     {

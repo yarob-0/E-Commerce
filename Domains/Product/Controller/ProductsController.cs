@@ -1,5 +1,5 @@
 ﻿
-namespace Product
+namespace Domains.Product
 {
 	using Common;
     using Microsoft.AspNetCore.Authorization;

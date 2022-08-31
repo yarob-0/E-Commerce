@@ -1,4 +1,4 @@
-﻿namespace ECommerce
+﻿namespace Domains.Category
 {
 	using Common;
 	using Microsoft.EntityFrameworkCore;

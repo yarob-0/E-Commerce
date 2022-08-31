@@ -8,7 +8,6 @@ namespace ECommerce
 
         public static Roles User { get { return new Roles("User"); } }
         public static Roles Admin{ get { return new Roles("Admin"); } }
-        public static Roles Root{ get { return new Roles("Root"); } }
 	}
 }
 

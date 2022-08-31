@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ECommerce.Migrations
 {
-    public partial class IdentityMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -72,13 +72,13 @@ namespace ECommerce.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(400)", maxLength: 400, nullable: false)
+                    Name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NameSecondLanguage = table.Column<string>(type: "varchar(400)", maxLength: 400, nullable: false)
+                    NameSecondLanguage = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "varchar(5000)", maxLength: 5000, nullable: false)
+                    Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DescriptionSecondLanguage = table.Column<string>(type: "varchar(5000)", maxLength: 5000, nullable: false)
+                    DescriptionSecondLanguage = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -96,18 +96,30 @@ namespace ECommerce.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Rate = table.Column<float>(type: "float", nullable: false),
-                    Name = table.Column<string>(type: "varchar(400)", maxLength: 400, nullable: false)
+                    Name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NameSecondLanguage = table.Column<string>(type: "varchar(400)", maxLength: 400, nullable: false)
+                    NameSecondLanguage = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "varchar(5000)", maxLength: 5000, nullable: false)
+                    Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DescriptionSecondLanguage = table.Column<string>(type: "varchar(5000)", maxLength: 5000, nullable: false)
+                    DescriptionSecondLanguage = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ProductCategories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductCategories", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -282,31 +294,51 @@ namespace ECommerce.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.CreateTable(
-                name: "ProductCategories",
-                columns: table => new
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    CategoryId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
-                },
-                constraints: table =>
+                    { "31354dcd-ed86-4840-8dbf-6bb79b73c627", "5bebd5d8-0a18-48ed-8879-29851a2cb4ed", "User", "USER" },
+                    { "417cb3e1-b685-4102-baa3-7f50f98b5be5", "365e0ac9-2be2-4c46-98cf-d5fa3cdfe80a", "Admin", "ADMIN" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "ConcurrencyStamp", "Email", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "SecurityStamp", "UserName" },
+                values: new object[,]
                 {
-                    table.PrimaryKey("PK_ProductCategories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductCategories_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductCategories_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                    { "0b52856f-8acf-4f11-af77-a133622e2c98", "bd32a041-ed3b-4160-af00-c81883b0677c", "admin@mail.xyz", null, "ADMIN@MAIL.XYZ", "ADMIN-NAME", "AQAAAAEAACcQAAAAEJDI/ynpOjc10wmsqfGRRXKM69HgYFP0zf1GKd3gL9G3UHaseDKJRvPTIfOOojmJ0w==", null, "fce8f4b7-eeb4-4db4-ae66-6d4a918daee2", "Admin-name" },
+                    { "f3ccc0ba-9be6-4a3f-bdb9-83dc0bb612c9", "52bda583-1f13-4e19-9459-ebba711a31c7", "user@mail.xyz", null, "USER@MAIL.XYZ", "USER-NAME", "AQAAAAEAACcQAAAAEPTY4M1Bi6sdQJqcfXiu8zLbUg+UywyWMDKoEdR68/OGM55nds6WRvLKRXUoqTSkqQ==", null, "428ca179-511b-47ea-b199-f6e7f5500ccb", "User-name" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Category",
+                columns: new[] { "Id", "Description", "DescriptionSecondLanguage", "Name", "NameSecondLanguage" },
+                values: new object[,]
+                {
+                    { new Guid("03f59c0f-cf81-4984-bf71-2167f1c58713"), null, null, "Category 2", "تصنيف  ٢" },
+                    { new Guid("c32d65fb-aad4-48dd-be41-733627528630"), null, null, "Category 1", "تصنيف  ١" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Product",
+                columns: new[] { "Id", "Description", "DescriptionSecondLanguage", "ImagePath", "Name", "NameSecondLanguage", "Price", "Rate" },
+                values: new object[,]
+                {
+                    { new Guid("25e3b7a6-435b-4bc2-a067-1994d597ffc9"), " a detalied discription of Produce 1", "وصف مفصل لمنتج ١", null, "product 1", "منتج ١", 2345m, 1f },
+                    { new Guid("60065bae-d021-4eb4-8b7f-4d059eec5922"), " a detalied discription of Produce 2", "وصف مفصل لمنتج ٢", null, "product 2", "منتج ٢", 25m, 3f }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "31354dcd-ed86-4840-8dbf-6bb79b73c627", "0b52856f-8acf-4f11-af77-a133622e2c98" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "417cb3e1-b685-4102-baa3-7f50f98b5be5", "f3ccc0ba-9be6-4a3f-bdb9-83dc0bb612c9" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -344,16 +376,6 @@ namespace ECommerce.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductCategories_CategoryId",
-                table: "ProductCategories",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductCategories_ProductId",
-                table: "ProductCategories",
-                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -374,6 +396,12 @@ namespace ECommerce.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Category");
+
+            migrationBuilder.DropTable(
+                name: "Product");
+
+            migrationBuilder.DropTable(
                 name: "ProductCategories");
 
             migrationBuilder.DropTable(
@@ -390,12 +418,6 @@ namespace ECommerce.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Category");
-
-            migrationBuilder.DropTable(
-                name: "Product");
         }
     }
 }

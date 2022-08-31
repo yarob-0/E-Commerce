@@ -1,4 +1,6 @@
 using ECommerce;
+using Domains.Product;
+using Domains.Category;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -49,6 +51,7 @@ builder.Services.AddAuthentication(opts =>
     };
 });
 
+builder.Services.AddScoped<DbContext,ApplicationDbContext>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductUnitOfWork, ProductUnitOfWork>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
